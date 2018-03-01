@@ -11,6 +11,20 @@ class QuestionService {
 		$this->optionService = $optionService;
 	}
 	
+	public function formatTestData(Question $question) {
+		$copy = $question->replicate();
+		$copy['id'] = strval($question['id']);
+		unset($copy['quiz']);
+		if(count($copy['options']) === 0) {
+			unset($copy['options']);
+		} else {
+			foreach($copy->options as $k => $v) {
+				$copy->options[$k] = $this->optionService->formatTestData($v);
+			}
+		}
+		return $copy;
+	}
+	
 	public function createTestData(Quiz $quiz) {
 		Question::getQuery()->delete(); // or ::truncate()
 		$ret = new \ArrayObject();

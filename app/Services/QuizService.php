@@ -13,7 +13,27 @@ class QuizService {
 	}
 
 	public function findTestData() {
-		return Quiz::with('questions.options')->get()->find(QUIZ_SERVICE_TEST_ID_1);
+		$raw = Quiz::with('questions.options')->get()->find(QUIZ_SERVICE_TEST_ID_1);
+		$safeCopy = $raw->replicate();
+		// creating return object
+		$formatted = array("data" => array());
+		// setting values as specified
+		$safeCopy->id = strval($raw->id);
+		$safeCopy->alreadyAnswered = $safeCopy->already_answered;
+		unset($safeCopy->already_answered);
+		$safeCopy->basePoints = $safeCopy->base_points;
+		unset($safeCopy->base_points);
+		$safeCopy->endDate = $safeCopy->end_date;
+		unset($safeCopy->end_date);
+		$safeCopy->startDate = strval($safeCopy->start_date);
+		unset($safeCopy->start_date);
+		$safeCopy->isActive = $safeCopy->is_active;
+		unset($safeCopy->is_active);
+		foreach($safeCopy->questions as $k => $v) {
+			$safeCopy->questions[$k] = $this->questionService->formatTestData($v);
+		}
+		$formatted['data'][0] = $safeCopy;
+		return $formatted;
 	}
 	
 	public function createTestData() {

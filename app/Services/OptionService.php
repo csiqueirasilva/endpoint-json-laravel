@@ -5,6 +5,13 @@ use QuizJSON\Question;
 
 class OptionService {
 	
+	public function formatTestData(Option $option) {
+		$copy = $option->replicate();
+		$copy['id'] = strval($option['id']);
+		unset($copy['question']);
+		return $copy;
+	}
+	
 	public function createTestData(Question $question) {
 		/* Erases previous data */
 		Option::getQuery()->delete(); // or ::truncate()
