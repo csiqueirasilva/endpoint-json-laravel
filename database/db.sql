@@ -8,8 +8,8 @@ create table quizzes (
 	description text,
 	category text,
 	base_points bigint,
-	start_date timestamp with time zone,
-	end_date timestamp with time zone,
+	start_date timestamp without time zone,
+	end_date timestamp without time zone,
 	is_active boolean,
 	already_answered boolean
 );

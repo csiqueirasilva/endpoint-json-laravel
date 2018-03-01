@@ -6,14 +6,13 @@ class QuizController extends Controller {
 
   public function index(QuizService $quizService)
   {
-	$ret = $quizService->createTestData();
+  	/* Creates quiz test data */
+	$quizService->createTestData();
   
-/*	$quiz = new Quiz();
-	$option->id = 123 * rand();
-	$option->text = "teste";
-	$option->value = "teste2";
-	$option->save();
-	*/
+  	/* Finds persisted test data */
+	$ret = $quizService->findTestData();
+  
+	/* Flush the persisted data as JSON to the response */
     return $ret;
   }
 

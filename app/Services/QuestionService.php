@@ -25,9 +25,9 @@ class QuestionService {
 		$q2->id = 2;
 		$q2->text = "Para qual área você está aplicando?";
 		$q2->type = "select";
-		$this->optionService->createTestData($q2);
 		$q2->quiz = $quiz->id;
 		$q2->save();
+		$this->optionService->createTestData($q2);
 		$ret->append($q2);
 		return $ret;
 	}
